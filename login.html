@@ -228,6 +228,9 @@ function login(event) {
     else if (password === "taxisnet") {
         window.location.href = "patient.html";
     }
+    else if (username === "calendar" && password === "date") {
+        window.location.href = "calendar.html";
+    }
     else {
         error.classList.remove("error-message-hidden");
     }
