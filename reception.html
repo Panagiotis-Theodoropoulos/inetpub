@@ -1,77 +1,308 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="el">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reception Page</title>
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Γραμματεία</title>
 <style>
     body {
-            background: linear-gradient(135deg, #0A2A66 0%, #081F4D 25%, #061735 50%, #081F4D 75%, #0A2A66 100%);
-            background-color: #061735;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
+        margin: 0;
+        font-family: system-ui;
+        background: linear-gradient(135deg, #0A2A66, #061735);
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+    }
 
-        .name-header {
-            text-align: center;
-            margin-top: 30px;
-            margin-bottom: 40px;
-            width: 100%;
-            position: relative;
-            z-index: 1;
-        }
-
-        .name-header h1 {
-            color: #e8f0ff;
-            font-size: 38px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            margin-bottom: 0;
-            text-transform: uppercase;
-            line-height: 1.2;
-        }
-
-        .name-header h2 {
-            display: none;
-        }
-        .main-container {
-        width: 90%;
-        max-width: 1100px;
-        background: white;
+    .container {
+        width: 95%;
+        max-width: 1200px;
+        background: #fff;
         border-radius: 20px;
-        padding: 40px;
-        box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
+    }
+
+    h1 {
+        text-align: center;
+        color: #0A2A66;
+    }
+
+    .nav {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .nav button {
+        flex: 1;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        border-radius: 14px;
+        background: #eef1f7;
+        cursor: pointer;
+    }
+
+    .nav .active {
+        background: #0A2A66;
+        color: #fff;
+    }
+
+    .section {
+        display: none;
+    }
+
+    .section.active {
+        display: block;
+    }
+
+    .tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .tabs div {
+        flex: 1;
+        text-align: center;
+        padding: 12px;
+        background: #eef2ff;
+        border-radius: 12px;
+        cursor: pointer;
+    }
+
+    .tabs .active {
+        background: #0A2A66;
+        color: #fff;
+    }
+
+    .msg-layout {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 10px;
+    }
+
+    #contacts {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+    .contact {
+        padding: 10px;
+        background: #f7f9fc;
+        border-radius: 10px;
+        margin-bottom: 5px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .chat {
+        background: #f7f9fc;
+        border-radius: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        min-height: 400px;
+    }
+
+    .messages {
+        max-height: 220px;
         overflow: auto;
-        }
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
 
+    .message {
+        padding: 8px 10px;
+        border-radius: 14px;
+        max-width: 70%;
+    }
+
+    .message.bot {
+        background: #eef2ff;
+    }
+
+    .message.user {
+        background: #0A2A66;
+        color: #fff;
+        margin-left: auto;
+    }
+
+    .chat-box {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .chat-box textarea {
+        flex: 1;
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+    }
+
+    .chat-box button {
+        background: #0A2A66;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 8px;
+        cursor: pointer;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .card {
+        background: #f7f9fc;
+        padding: 14px;
+        border-radius: 14px;
+        border: 1px solid #ddd;
+    }
+
+    .card strong {
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .card-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px;
+    }
+
+    /* ΔΙΠΛΑ-ΔΙΠΛΑ ΤΑ ΣΤΟΙΧΕΙΑ */
+    .info-item {
+        display: flex;
+        gap: 4px;
+        font-size: 14px;
+    }
+
+    .info-item b {
+        white-space: nowrap;
+    }
+
+    .item {
+        background: #f7f9fc;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .details {
+        display: none;
+        background: #fff;
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+    }
+
+    .btn {
+        margin-top: 12px;
+        background: #0A2A66;
+        color: #fff;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        font-weight: bold;
+    }
 </style>
+</head>
 <body>
-    <div class="name-header">
-        <h1>Γραμματεία</h1>
+
+<div class="container">
+    <h1>Γραμματεία</h1>
+    <div class="nav">
+        <button class="active" onclick="showSec('messages',this)">Μηνύματα</button>
+        <button onclick="showSec('appointments',this)">Ραντεβού</button>
+        <button onclick="showSec('requests',this)">Αιτήματα</button>
     </div>
 
-      <div class="main-container">
-        <h2>Περιεχόμενο Σελίδας</h2>
-        <pre>
-        <pre>ραντεβού και αποτελέσματα εξετάσεων</pre>
-        <pre>προσωπικά στοιχεία και ιατρικό ιστορικό</pre>
-        <pre>επικοινωνία με γιατρούς και γραμματεία</pre>
-        <pre>προβολή και διαχείριση ραντεβού</pre>
-        <pre>προβολή αποτελεσμάτων εξετάσεων</pre>
-
-
-
-
-         
-        </pre>
+    <div id="messages" class="section active">
+        <div class="tabs">
+            <div class="active" onclick="tab('patients',this)">Ασθενείς</div>
+            <div onclick="tab('doctor',this)">Γιατρός</div>
+            <div onclick="tab('physics',this)">Ακτινοφυσικοί</div>
+        </div>
+        <div class="msg-layout">
+            <div id="contacts"></div>
+            <div id="chatBox" class="chat"></div>
+        </div>
     </div>
+
+    <div id="appointments" class="section">
+        <h3>Καρτέλες Ραντεβού</h3>
+        <div class="grid" id="apps"></div>
+    </div>
+
+    <div id="requests" class="section">
+        <h3>Εκκρεμή Αιτήματα</h3>
+        <div id="reqs"></div>
+    </div>
+</div>
+
+<script>
+const g = i => document.getElementById(i), q = s => document.querySelectorAll(s);
+
+const names = ['Γιώργος Παπαδόπουλος','Μαρία Ιωάννου','Νίκος Δημητρίου','Ελένη Κωνσταντίνου','Δημήτρης Αντωνίου','Άννα Λεωνίδου','Κώστας Παππάς','Σοφία Μαρίνου','Πέτρος Γεωργίου','Λένα Καραγιάννη','Χρήστος Νικολάου','Βασιλική Σταύρου','Αντώνης Κυριακίδης','Κατερίνα Ζαχαράκη','Μιχάλης Ράπτης','Δέσποινα Κωστούλα','Σπύρος Τάκης','Ιωάννα Φωτιάδου','Παναγιώτης Λάμπρου','Αγγελική Μάνου','Θανάσης Ρίζος','Ευαγγελία Μπάρκα','Γρηγόρης Σταματίου','Αλεξάνδρα Πέτρου','Στέλιος Καραλής','Χριστίνα Γαλάνη','Λουκάς Παπαγεωργίου','Νάντια Σπυρίδου','Αργύρης Θεοδώρου','Ιωσήφ Μιχαήλ'];
+const reqNames = ['Σωτήρης Φωκάς', 'Ελπίδα Νάκου', 'Βαγγέλης Μόραλης', 'Καλλιόπη Δούκα', 'Φάνης Ζέρβας', 'Λίτσα Χατζή', 'Μάνος Γούναρης', 'Άρτεμις Σίμου', 'Σάκης Ράλλης', 'Δέσποινα Νικολή', 'Άρης Σαρρής', 'Βίκυ Κανέλλη'];
+
+const createData = (list, yr, h, w) => list.map((n, i) => ({ name: n, dob: `${(i%28)+1}/04/${yr+i}`, amka: `${(i%28)+1}04${String(yr+i).slice(-2)}00${i}`, date: (i + 1) + '/4', y: yr+i, h: h+(i%20), w: w+(i%35), ref: Math.random()>.5?'Ναι':'Όχι' }));
+
+const pts = createData(names, 1960, 160, 60);
+const reqData = createData(reqNames, 1975, 158, 62);
+
+function showSec(id, el) {
+    q('.section, .nav button').forEach(x => x.classList.remove('active'));
+    g(id).classList.add('active'); el.classList.add('active');
+}
+
+function tab(t, el) {
+    q('.tabs div').forEach(x => x.classList.remove('active')); el.classList.add('active');
+    g('contacts').innerHTML = '';
+    if(t === 'patients') {
+        pts.forEach((p, i) => g('contacts').innerHTML += `<div class='contact' onclick="openChat(${i})"><strong>${p.name}</strong><br><small>${p.amka}</small></div>`);
+        openChat(0);
+    } else openSpecial(t);
+}
+
+function openChat(i) {
+    let p = pts[i], msgs = `<div class='message bot'>Αγαπητέ ασθενή, το ραντεβού σας στις ${p.date} εγκρίθηκε.</div><div class='message user'>Εντάξει, ευχαριστώ.</div>`;
+    if(i < 20) msgs += `<div class='message bot'>Υπενθύμιση: έχετε ραντεβού στις ${p.date}.</div>`;
+    if(i < 10) msgs += `<div class='message bot'>Υπενθύμιση: έχετε ραντεβού στις ${p.date}.</div>`;
+    if(i < 5) msgs += `<div class='message bot'>Παρακαλώ ενημερώστε για τυχόν αλλαγή βάρους.</div>`;
+    renderChat(p.name, p.amka, msgs);
+}
+
+function openSpecial(t) {
+    let msgs = pts.slice(0, 15).map(p => `<div class='message bot'>${t==='doctor'?'Εγκρίνεται':'Παραγγελία για'} ${p.name}.</div><div class='message user'>Ελήφθη.</div>`).join('');
+    renderChat(t === 'doctor' ? 'Γιατρός' : 'Ακτινοφυσικοί', '', msgs);
+}
+
+function renderChat(t, s, m) {
+    g('chatBox').innerHTML = `<strong>${t}</strong><br><small>${s}</small><div class='messages' id='msgs'>${m}</div><div class='chat-box'><textarea id='mi'></textarea><button onclick='sendMsg()'>➤</button></div>`;
+}
+
+function sendMsg() {
+    let i = g('mi'), m = g('msgs'); if(!i.value.trim()) return;
+    m.innerHTML += `<div class='message user'>${i.value}</div>`; i.value = ''; m.scrollTop = 9999;
+}
+
+const getGrid = p => `<div class='card-grid'><div class="info-item"><b>AMKA:</b>${p.amka}</div><div class="info-item"><b>Ηλικία:</b>${2026-p.y}</div><div class="info-item"><b>Γέννηση:</b>${p.dob}</div><div class="info-item"><b>Ύψος:</b>${p.h}</div><div class="info-item"><b>Βάρος:</b>${p.w}</div><div class="info-item"><b>Παραπεμπτικό:</b>${p.ref}</div></div>`;
+
+pts.forEach(p => g('apps').innerHTML += `<div class='card'><strong>${p.date} - ${p.name}</strong>${getGrid(p)}</div>`);
+reqData.forEach(p => g('reqs').innerHTML += `<div class='item' onclick="let d=this.querySelector('.details'); d.style.display=d.style.display==='block'?'none':'block'"><strong>${p.name}</strong><div class='details'>${getGrid(p)}<button class='btn' onclick="event.stopPropagation(); alert('Προωθήθηκε!')">Προώθηση Αιτήματος</button></div></div>`);
+
+tab('patients', q('.tabs div')[0]);
+</script>
 </body>
 </html>
