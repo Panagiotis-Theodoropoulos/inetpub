@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Doctor Portal</title>
+<title>Σελίδα Ιατρού</title>
 <style>
     body {
         margin: 0;
@@ -254,49 +254,82 @@
 </div>
 
 <script>
-    const g = i => document.getElementById(i);
+const g = id => document.getElementById(id);
 
-    function send(t) {
-        const i = g('m-input'), a = g('m-area');
-        a.innerHTML += `<div class="msg doc">${t || i.value}</div>`;
-        if(!t) i.value = '';
-        a.scrollTop = a.scrollHeight;
-    }
+const reasons = [
+'Ογκολογικός έλεγχος','Σταδιοποίηση καρκίνου',
+'Παρακολούθηση θεραπείας','Υποτροπή νόσου','Μεταστατικός έλεγχος'
+];
 
-    // Template καρτών
-    const card = p => `
+const priorities = ['Υψηλή','Μέτρια','Χαμηλή'];
+
+const names = [
+'Παπαδόπουλος','Ιωάννου','Δημητρίου','Κωνσταντίνου','Αντωνίου','Λεωνίδου',
+'Παππάς','Μαρίνου','Γεωργίου','Καραγιάννη','Νικολάου','Σταύρου',
+'Κυριακίδης','Ζαχαράκη','Ράπτης','Κωστούλα','Τάκης','Φωτιάδου',
+'Λάμπρου','Μάνου','Ρίζος','Μπάρκα','Σταματίου','Πέτρου',
+'Καραλής','Γαλάνη','Παπαγεωργίου','Σπυρίδου','Θεοδώρου','Μιχαήλ'
+];
+
+const rNames = [
+'Φωκάς Σωτήρης','Νάκου Ελπίδα','Μόραλης Βαγγέλης','Δούκα Καλλιόπη',
+'Ζέρβας Φάνης','Χατζή Λίτσα','Γούναρης Μάνος','Σίμου Άρτεμις',
+'Ράλλης Σάκης','Νικολή Δέσποινα'
+];
+
+let rc = 1;
+
+const genAMKA = () =>
+Math.floor(10000000000 + Math.random() * 90000000000);
+
+function send(t){
+    const i=g('m-input'),m=t||i.value;
+    if(!m.trim())return;
+    g('m-area').innerHTML+=`<div class="msg doc">${m}</div>`;
+    i.value='';
+    g('m-area').scrollTop=99999;
+}
+
+function render(el,list,isReq){
+    el.innerHTML=list.map((n,i)=>{
+        const pr=priorities[i%3];
+        return `<div class="card" ${isReq?`id="r${i}"`:''}>
+        <strong>${isReq?'ΑΙΤΗΜΑ: ':(i+1)+'. '}${n}</strong>
         <div class="card-grid">
-            <div class="info-item"><b>AMKA:</b>${p.amka}</div>
-            <div class="info-item"><b>Ηλικία:</b>${p.age}</div>
-            <div class="info-item"><b>Γέννηση:</b>${p.dob}</div>
-            <div class="info-item"><b>Ύψος:</b>${p.h}</div>
-            <div class="info-item"><b>Βάρος:</b>${p.w}</div>
-            <div class="info-item"><b>Παραπεμπτικό:</b>${p.ref}</div>
+        <div class="info-item"><b>AMKA:</b>${genAMKA()}</div>
+        <div class="info-item"><b>Ηλικία:</b>${30+i}</div>
+        <div class="info-item"><b>Ύψος:</b>170</div>
+        <div class="info-item"><b>Βάρος:</b>75</div>
+        <div class="info-item"><b>Παραπεμπτικό:</b>${i%2?'Όχι':'Ναι'}</div>
+        <div class="info-item"><b>Λόγος:</b>${reasons[i%5]}</div>
+        ${isReq?`<div class="info-item"><b>Σειρά:</b>#${rc++}</div>`:''}
+        </div>
+        ${isReq?`
+        <div class="actions">
+        <button data-n="${n}" data-i="${i}" data-p="${pr}" data-a="Έγκριση" class="btn-acc">Αποδοχή</button>
+        <button data-n="${n}" data-i="${i}" data-p="${pr}" data-a="Απόρριψη" class="btn-rej">Απόρριψη</button>
+        </div>`:''}
         </div>`;
+    }).join('');
+}
 
-    const names = ['Παπαδόπουλος','Ιωάννου','Δημητρίου','Κωνσταντίνου','Αντωνίου','Λεωνίδου','Παππάς','Μαρίνου','Γεωργίου','Καραγιάννη','Νικολάου','Σταύρου','Κυριακίδης','Ζαχαράκη','Ράπτης','Κωστούλα','Τάκης','Φωτιάδου','Λάμπρου','Μάνου','Ρίζος','Μπάρκα','Σταματίου','Πέτρου','Καραλής','Γαλάνη','Παπαγεωργίου','Σπυρίδου','Θεοδώρου','Μιχαήλ'];
-    names.forEach((n, i) => {
-        g('apps-grid').innerHTML += `<div class="card"><strong>${i+1}. ${n}</strong>${card({amka:i+'048', age:40+i, dob:'01/04', h:170, w:75, ref:'Ναι'})}</div>`;
-    });
+document.addEventListener('click',e=>{
+    const b=e.target.closest('[data-a]');
+    if(!b)return;
+    const {n,i,p,a}=b.dataset;
+    send(a==='Έγκριση'
+        ?`${a} αιτήματος: ${n} (${p.toUpperCase()} προτεραιότητα)`
+        :`${a} αιτήματος: ${n}`);
+    const el=g('r'+i);
+    el.style.opacity=.4;
+    el.style.pointerEvents='none';
+});
 
-    const rNames = ['Φωκάς Σωτήρης', 'Νάκου Ελπίδα', 'Μόραλης Βαγγέλης', 'Δούκα Καλλιόπη', 'Ζέρβας Φάνης', 'Χατζή Λίτσα', 'Γούναρης Μάνος', 'Σίμου Άρτεμις', 'Ράλλης Σάκης', 'Νικολή Δέσποινα'];
-    rNames.forEach((n, i) => {
-        g('reqs-grid').innerHTML += `<div class="card" id="r${i}">
-            <strong>ΑΙΤΗΜΑ: ${n}</strong>${card({amka:'0'+i+'05', age:30+i, dob:'10/05', h:175, w:80, ref:i%2==0?'Ναι':'Όχι'})}
-            <div class="actions">
-                <button class="btn-acc" onclick="h('${n}','Έγκριση',${i})">Αποδοχή</button>
-                <button class="btn-rej" onclick="h('${n}','Απόρριψη',${i})">Απόρριψη</button>
-            </div></div>`;
-    });
-
-    function h(n, a, id) {
-        send(`${a} αιτήματος: ${n}`);
-        g('r'+id).style.opacity = "0.4";
-        g('r'+id).style.pointerEvents = "none";
-    }
-
-    window.onload = () => g('m-area').scrollTop = g('m-area').scrollHeight;
+window.onload=()=>{
+    render(g('apps-grid'),names);
+    render(g('reqs-grid'),rNames,1);
+    g('m-area').scrollTop=99999;
+};
 </script>
-
 </body>
 </html>

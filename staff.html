@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Staff Portal - Full History</title>
+<title>Σελίδα Προσωπικού</title>
 <style>
     body {
         margin: 0;
@@ -215,14 +215,14 @@
     <div id="chat-section" class="section">
         <div class="chat-box">
             <div class="messages" id="m-area">
-                <div class="msg staff">Παραγγελία ραδιοφαρμάκου 10mCi για το ραντεβού του κ. Παπαδόπουλου.</div>
-                <div class="msg sec">Η παραγγελία εκτελέστηκε.</div>
-                <div class="msg staff">Παραγγελία ραδιοφαρμάκου 5mCi για το ραντεβού της κ. Ιωάννου.</div>
-                <div class="msg sec">Το φάρμακο είναι διαθέσιμο.</div>
-                <div class="msg staff">Παραγγελία ραδιοφαρμάκου 8mCi για το ραντεβού του κ. Δημητρίου.</div>
-                <div class="msg sec">Η παραγγελία ολοκληρώθηκε.</div>
-                <div class="msg staff">Παραγγελία ραδιοφαρμάκου 12mCi για το ραντεβού της κ. Κωνσταντίνου.</div>
-                <div class="msg sec">Η παραγγελία επιβεβαιώθηκε.</div>
+                <div class="msg staff">Έγινε η παραγγελία ραδιοφαρμάκου 10mCi για το ραντεβού του κ. Παπαδόπουλου, με ΑΜΚΑ 104600000</div>
+                <div class="msg sec">Ευχαριστούμε για την ενημέρωση.</div>
+                <div class="msg staff">Έγινε η παραγγελία ραδιοφαρμάκου 5mCi για το ραντεβού της κ. Ιωάννου, με ΑΜΚΑ 204610011</div>
+                <div class="msg sec">Ευχαριστούμε για την ενημέρωση.</div>
+                <div class="msg staff">Έγινε η παραγγελία ραδιοφαρμάκου 8mCi για το ραντεβού του κ. Δημητρίου, με ΑΜΚΑ 304620022</div>
+                <div class="msg sec">Ευχαριστούμε για την ενημέρωση.</div>
+                <div class="msg staff">Έγινε η παραγγελία ραδιοφαρμάκου 12mCi για το ραντεβού της κ. Κωνσταντίνου, με ΑΜΚΑ 404630033</div>
+                <div class="msg sec">Ευχαριστούμε για την ενημέρωση.</div>
             </div>             
             <div class="input-group">
                 <textarea id="m-input" placeholder="Γράψτε μήνυμα προς τη γραμματεία..."></textarea>
@@ -261,9 +261,10 @@
             <div class="card">
                 <strong>${i+1}. ${name}</strong>
                 <div class="card-grid">
-                    <div class="info-item"><b>AMKA:</b>${i+1}04${60+i}00${i}</div>
-                    <div class="info-item"><b>Ηλικία:</b>${35+i}</div>
-                    <div class="info-item"><b>Γέννηση:</b>${(i%28)+1}/04/${1960+i}</div>
+                    <div class="info-item"><b>AMKA:</b>${i+1}04${60+i}00${i}${i}</div>
+                    <div class="info-item"><b>Ηλικία:</b>${66-i}</div>
+                    <div class="info-item"><b>Ημ.Γέννησης:</b>${(i%28)+1}/04/${1960+i}</div>
+                    <div class="info-item"><b>Ημ Ραντεβού:</b>${(i+1)}/04/${2026}</div>
                     <div class="info-item"><b>Ύψος:</b>${h} cm</div>
                     <div class="weight-box">ΒΑΡΟΣ: ${w} kg</div>
                 </div>

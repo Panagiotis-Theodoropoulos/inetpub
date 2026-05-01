@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Γραμματεία</title>
+<title>Σελίδα Γραμματείας</title>
 <style>
-    body {
-        margin: 0;
-        font-family: system-ui;
-        background: linear-gradient(135deg, #0A2A66, #061735);
-        display: flex;
-        justify-content: center;
-        padding: 20px;
-    }
+body {
+    background: linear-gradient(135deg, #0A2A66, #061735);
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
 
     .container {
         width: 95%;
@@ -231,7 +231,7 @@
     <h1>PetSync</h1>
 </div>
 <div class="container">
-    <h1>Γραμματεία</h1>
+    <h1>Σελίδα Γραμματείας</h1>
     <div class="nav">
         <button class="active" onclick="showSec('messages',this)">Μηνύματα</button>
         <button onclick="showSec('appointments',this)">Ραντεβού</button>
@@ -308,7 +308,7 @@ function sendMsg() {
     m.innerHTML += `<div class='message user'>${i.value}</div>`; i.value = ''; m.scrollTop = 9999;
 }
 
-const getGrid = p => `<div class='card-grid'><div class="info-item"><b>AMKA:</b>${p.amka}</div><div class="info-item"><b>Ηλικία:</b>${2026-p.y}</div><div class="info-item"><b>Γέννηση:</b>${p.dob}</div><div class="info-item"><b>Ύψος:</b>${p.h}</div><div class="info-item"><b>Βάρος:</b>${p.w}</div><div class="info-item"><b>Παραπεμπτικό:</b>${p.ref}</div></div>`;
+const getGrid = p => `<div class='card-grid'><div class="info-item"><b>AMKA:</b>${p.amka}</div><div class="info-item"><b>Ηλικία:</b>${2026-p.y}</div><div class="info-item"><b> Ημ. Γέννησης:</b>${p.dob}</div><div class="info-item"><b>Ύψος:</b>${p.h}</div><div class="info-item"><b>Βάρος:</b>${p.w}</div><div class="info-item"><b>Παραπεμπτικό:</b>${p.ref}</div></div>`;
 
 pts.forEach(p => g('apps').innerHTML += `<div class='card'><strong>${p.date} - ${p.name}</strong>${getGrid(p)}</div>`);
 reqData.forEach(p => g('reqs').innerHTML += `<div class='item' onclick="let d=this.querySelector('.details'); d.style.display=d.style.display==='block'?'none':'block'"><strong>${p.name}</strong><div class='details'>${getGrid(p)}<button class='btn' onclick="event.stopPropagation(); alert('Προωθήθηκε!')">Προώθηση Αιτήματος</button></div></div>`);
