@@ -56,7 +56,8 @@
     }
 
     #tab1:checked ~ .nav label[for="tab1"],
-    #tab2:checked ~ .nav label[for="tab2"] {
+    #tab2:checked ~ .nav label[for="tab2"],
+    #tab3:checked ~ .nav label[for="tab3"] {
         background: #0A2A66;
         color: #fff;
     }
@@ -66,7 +67,8 @@
     }
 
     #tab1:checked ~ #chat-section,
-    #tab2:checked ~ #apps-section {
+    #tab2:checked ~ #apps-section,
+    #tab3:checked ~ #calendar-section {
         display: block;
     }
 
@@ -135,7 +137,125 @@
         cursor: pointer;
         font-weight: bold;
     }
+.calendar-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+}
 
+.calendar-header button {
+    background: #0A2A66;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.calendar-header h2 {
+    min-width: 220px;
+    text-align: center;
+    color: #0A2A66;
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+}
+
+.day {
+    min-height: 130px;
+    border-radius: 12px;
+    padding: 10px;
+    background: #f9fbff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: 0.2s;
+}
+
+.day:hover {
+    transform: translateY(-3px);
+}
+
+.day-header {
+    font-size: 13px;
+    font-weight: bold;
+    color: #0A2A66;
+    text-align: center;
+}
+
+.day-date {
+    font-size: 14px;
+    text-align: center;
+    color: #555;
+}
+
+.slots {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.slot {
+    font-size: 11px;
+    padding: 5px;
+    border-radius: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.slot.available {
+    background: #4CAF50;
+    color: white;
+}
+
+.slot.booked {
+    background: #e53935;
+    color: white;
+}
+
+.comments-box {
+    margin-top: 40px;
+    padding: 20px;
+    background: #f5f5f5;
+    border-radius: 15px;
+}
+
+.comment {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.comment-input {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.comment-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.comment-input button {
+    background: #0A2A66;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+}
     .grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -204,11 +324,13 @@
 </div>
 <div class="container">
   <h1>Σελίδα Προσωπικού</h1>
-    <input type="radio" name="nav" id="tab1" checked>
-    <input type="radio" name="nav" id="tab2">
+<input type="radio" name="nav" id="tab1" checked>
+<input type="radio" name="nav" id="tab3">
+<input type="radio" name="nav" id="tab2">
 
     <div class="nav">
         <label for="tab1">Συνομιλία με Γραμματεία</label>
+        <label for="tab3">Ημερολόγιο</label>
         <label for="tab2">Καρτέλες Ραντεβού</label>
     </div>
 
@@ -230,7 +352,39 @@
             </div>
         </div>
     </div>
+    <div id="calendar-section" class="section">
 
+    <div class="calendar-header">
+        <button onclick="changeMonth(-1)">◀</button>
+        <h2 id="monthTitle"></h2>
+        <button onclick="changeMonth(1)">▶</button>
+    </div>
+
+    <div id="calendar" class="calendar"></div>
+
+    <div class="comments-box">
+        <h3>Σχόλια</h3>
+
+        <div id="commentsList">
+            <div class="comment">
+                Κλείσαμε ραντεβού για 25/05/2026
+            </div>
+
+            <div class="comment">
+                Αλλαγή ραντεβού στις 15/06/2026
+            </div>
+        </div>
+
+        <div class="comment-input">
+            <input type="text" id="commentText" placeholder="Γράψε σχόλιο...">
+
+            <button onclick="addComment()">
+                Προσθήκη
+            </button>
+        </div>
+    </div>
+
+</div>
     <div id="apps-section" class="section">
         <div class="grid" id="staff-grid">
             </div>
@@ -270,6 +424,144 @@
                 </div>
             </div>`;
     });
+let c = new Date(2026,3);
+
+    const months = [
+        'Ιανουάριος','Φεβρουάριος','Μάρτιος',
+        'Απρίλιος','Μάιος','Ιούνιος',
+        'Ιούλιος','Αύγουστος','Σεπτέμβριος',
+        'Οκτώβριος','Νοέμβριος','Δεκέμβριος'
+    ];
+
+    const days = [
+        'Κυριακή','Δευτέρα','Τρίτη',
+        'Τετάρτη','Πέμπτη','Παρασκευή','Σάββατο'
+    ];
+
+    const times = ["09:00","12:00","15:00"];
+
+    function getSlots(month, day){
+
+        if(month === 3){
+
+            if(day === 24 || day === 29)
+                return [false,true,false];
+
+            return [false,false,false];
+        }
+
+        if(month === 4){
+
+            if(day === 9)
+                return [false,false,true];
+
+            if(day <= 18)
+                return [false,false,false];
+
+            if(day <= 20)
+                return [false,false,true];
+
+            return [false,true,false];
+        }
+
+        if(month === 5){
+
+            if(day <= 10)
+                return [false,true,true];
+
+            if(day <= 20)
+                return [true,true,false];
+
+            return [true,true,true];
+        }
+
+        if(month === 6){
+
+            if(day <= 10)
+                return [true,false,true];
+
+            return [true,true,true];
+        }
+
+        if(month === 7){
+            return [true,true,true];
+        }
+
+        if(month === 8){
+            return [true,true,true];
+        }
+
+        return [true,true,true];
+    }
+
+    function renderCalendar(){
+
+        const cal = document.getElementById("calendar");
+
+        const y = c.getFullYear();
+
+        const mo = c.getMonth();
+
+        document.getElementById("monthTitle").textContent =
+            `${months[mo]} ${y}`;
+
+        cal.innerHTML = "";
+
+        const totalDays =
+            new Date(y, mo+1, 0).getDate();
+
+        for(let i=1;i<=totalDays;i++){
+
+            const date = new Date(y,mo,i);
+
+            const day = date.getDay();
+
+            if(day===0 || day===6) continue;
+
+            let x = document.createElement("div");
+
+            x.className = "day";
+
+            x.innerHTML = `
+                <div class="day-header">
+                    ${days[day]}
+                </div>
+
+                <div class="day-date">
+                    ${i} ${months[mo]}
+                </div>
+
+                <div class="slots"></div>
+            `;
+
+            let slots = x.querySelector(".slots");
+
+            const slotsData = getSlots(mo, i);
+
+            slotsData.forEach((free,index)=>{
+
+                let s = document.createElement("div");
+
+                s.className =
+                    `slot ${free ? "available" : "booked"}`;
+
+                s.textContent = times[index];
+
+                slots.appendChild(s);
+            });
+
+            cal.appendChild(x);
+        }
+    }
+
+    function changeMonth(n){
+
+        c.setMonth(c.getMonth()+n);
+
+        renderCalendar();
+    }
+
+    renderCalendar();
 </script>
 
 </body>
