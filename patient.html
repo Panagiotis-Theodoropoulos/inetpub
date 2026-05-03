@@ -279,7 +279,6 @@ body {
         <div class="tab" onclick="showTab(1)">Μηνύματα</div>
     </div>
 
-    <!-- ΚΑΡΤΕΛΑ -->
     <div class="content active">
 
         <div class="grid">
@@ -319,7 +318,6 @@ body {
                 <input id="diabetes" class="edit-input" value="Ναι">
             </div>
 
-            <!-- Παραπέμπτικό -->
             <div class="card full">
 
                 <div class="label">Παραπεμπτικό</div>
@@ -334,17 +332,14 @@ body {
 
             </div>
 
-            <!-- Αίτημα -->
             <div class="card full">
 
                 <div class="label">Αίτημα προς Γραμματεία</div>
 
-                <input
-                    type="text"
-                    id="reason"
-                    class="edit-input"
-                    placeholder="Λόγος επίσκεψης"
-                >
+                <input type="text"
+                       id="reason"
+                       class="edit-input"
+                       placeholder="Λόγος επίσκεψης">
 
                 <div class="checkbox-group">
 
@@ -369,25 +364,32 @@ body {
         </div>
 
     </div>
+
     <div class="content">
+
         <div class="messages" id="messages">
-          <div class="message user">
-    Αγαπητέ ασθενή, το ραντεβού σας στις 08/04/2026 εγκρίθηκε.
-</div>
-<div class="message bot">
-    Εντάξει, ευχαριστώ.
-</div>
-<div class="message user">
-    Υπενθύμιση: έχετε ραντεβού στις 08/04/2026.
-</div>
-<div class="message user">
-    Υπενθύμιση: έχετε ραντεβού στις 08/04/2026.
-</div>
+
+            <div class="message bot">
+                Αγαπητέ ασθενή, το ραντεβού σας στις 08/04/2026 εγκρίθηκε.
+            </div>
+
+            <div class="message user">
+                Εντάξει, ευχαριστώ.
+            </div>
+
+            <div class="message bot">
+                Υπενθύμιση: έχετε ραντεβού στις 08/04/2026.
+            </div>
+            <div class="message bot">
+                Υπενθύμιση: έχετε ραντεβού στις 08/04/2026.
+            </div>
         </div>
 
         <div class="chat-box">
 
-            <textarea id="msgInput" rows="2" placeholder="Γράψε μήνυμα..."></textarea>
+            <textarea id="msgInput"
+                      rows="2"
+                      placeholder="Γράψε μήνυμα..."></textarea>
 
             <button onclick="sendMsg()">➤</button>
 
@@ -396,15 +398,11 @@ body {
     </div>
 
 </div>
-
 <script>
-
 function showTab(i){
-
     document.querySelectorAll(".tab").forEach((tab, index) => {
         tab.classList.toggle("active", index === i);
     });
-
     document.querySelectorAll(".content").forEach((content, index) => {
         content.classList.toggle("active", index === i);
     });
@@ -412,51 +410,33 @@ function showTab(i){
 }
 
 function sendMsg(){
-
     let input = document.getElementById("msgInput");
-
     let text = input.value.trim();
-
     if(!text) return;
-
     let div = document.createElement("div");
-
     div.className = "message user";
-
     div.textContent = text;
-
     document.getElementById("messages").appendChild(div);
-
     input.value = "";
-
 }
 
 const fileUpload = document.getElementById("fileUpload");
-
 fileUpload.addEventListener("change", function(){
-
     if(this.files.length > 0){
-
         document.getElementById("fileName").textContent =
             "✔ Ανέβηκε αρχείο: " + this.files[0].name;
-
     }
-
 });
 
 let requestSent = false;
 
 function submitRequest(){
-
     if(requestSent){
         return;
     }
-
     const termsCheck =
         document.getElementById("termsCheck");
-
     if(!termsCheck.checked){
-
         alert("Πρέπει να αποδεχτείτε τους όρους χρήσης.");
         return;
     }
@@ -474,7 +454,6 @@ function submitRequest(){
     btn.disabled = true;
     btn.style.opacity = "0.7";
 }
-
 </script>
 </body>
 </html>
