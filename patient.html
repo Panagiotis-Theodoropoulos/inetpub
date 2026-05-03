@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Σελίδα Ασθενούς</title>
-
 <style>
 body {
     background: linear-gradient(135deg, #0A2A66, #061735);
@@ -13,15 +12,18 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 30px;
+    margin: 0;
 }
-    .name-header h1 {
-        color: #fef1f1;
-        margin-bottom: 20px;
-        font-size: 45px;
-        font-family: Arial, Helvetica, sans-serif;
-        font-style: italic;
-        text-shadow: 0 2px 10px rgba(90, 108, 241, 0.3);
-    }
+
+.name-header h1 {
+    color: #fef1f1;
+    margin-bottom: 20px;
+    font-size: 45px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    text-shadow: 0 2px 10px rgba(90, 108, 241, 0.3);
+}
+
 .container {
     width: 95%;
     max-width: 1000px;
@@ -30,10 +32,11 @@ body {
     padding: 25px;
     box-shadow: 0 20px 50px rgba(0,0,0,0.25);
 }
- h1 {
-    min-width: 220px;
+
+.container h1 {
     text-align: center;
     color: #0A2A66;
+    margin-bottom: 25px;
 }
 
 .tabs {
@@ -50,6 +53,11 @@ body {
     border-radius: 14px;
     cursor: pointer;
     font-weight: 500;
+    transition: 0.3s;
+}
+
+.tab:hover {
+    background: #dfe6f5;
 }
 
 .tab.active {
@@ -57,8 +65,13 @@ body {
     color: white;
 }
 
-.content { display: none; }
-.content.active { display: block; }
+.content {
+    display: none;
+}
+
+.content.active {
+    display: block;
+}
 
 .grid {
     display: grid;
@@ -66,22 +79,42 @@ body {
     gap: 15px;
 }
 
+.full {
+    grid-column: span 2;
+}
+
 .card {
     background: #f7f9fc;
     padding: 18px;
-    border-radius: 14px;
+    border-radius: 16px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+.edit-input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d6dce8;
+    border-radius: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background: white;
+    color: #111;
+    margin-top: 5px;
 }
 
-.full { grid-column: span 2; }
-
+.edit-input:focus{
+    outline: none;
+    border-color: #0A2A66;
+}
 .label {
     font-size: 13px;
     color: #666;
+    margin-bottom: 6px;
 }
 
 .value {
     font-size: 18px;
     font-weight: bold;
+    color: #111;
 }
 
 .file-label {
@@ -93,19 +126,33 @@ body {
     text-align: center;
     cursor: pointer;
     margin-top: 10px;
+    transition: 0.3s;
+}
+
+.file-label:hover {
+    background: #123a85;
 }
 
 .btn {
     display: inline-block;
     background: #0A2A66;
     color: white;
-    padding: 10px 15px;
-    border-radius: 10px;
+    padding: 12px 18px;
+    border-radius: 12px;
     text-decoration: none;
     margin-top: 10px;
     border: none;
     cursor: pointer;
     font-size: 16px;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #123a85;
+}
+
+.btn:disabled {
+    cursor: not-allowed;
 }
 
 .messages {
@@ -119,9 +166,10 @@ body {
 
 .message {
     max-width: 75%;
-    padding: 10px;
+    padding: 12px;
     border-radius: 12px;
     background: #eef2ff;
+    font-size: 15px;
 }
 
 .message.user {
@@ -142,6 +190,7 @@ body {
     border-radius: 10px;
     border: 1px solid #ccc;
     resize: none;
+    font-size: 15px;
 }
 
 .chat-box button {
@@ -151,6 +200,11 @@ body {
     padding: 10px 14px;
     border-radius: 10px;
     cursor: pointer;
+    font-size: 16px;
+}
+
+.chat-box button:hover {
+    background: #123a85;
 }
 
 .visually-hidden {
@@ -196,151 +250,232 @@ body {
     color: #333;
 }
 
-.appointment-form {
-    display: none;
-    margin-top: 20px;
+#fileName {
+    margin-top: 10px;
+    color: green;
+    font-weight: bold;
 }
 
-.appointment-form.active {
-    display: block;
+#successMessage {
+    display: none;
+    margin-top: 15px;
+    color: green;
+    font-weight: bold;
 }
 </style>
 </head>
-
 <body>
 
-    <div class="name-header">
-        <h1>PetSync</h1>
-    </div>
+<div class="name-header">
+    <h1>PetSync</h1>
+</div>
 
 <div class="container">
-<h1>Σελίδα Ασθενούς</h1>
-<div class="tabs">
-    <div class="tab active" onclick="showTab(0)">Καρτέλα</div>
-    <div class="tab" onclick="showTab(1)">Ραντεβού</div>
-    <div class="tab" onclick="showTab(2)">Μηνύματα</div>
-</div>
 
-<div class="content active">
-    <div class="grid">
+    <h1>Σελίδα Ασθενούς</h1>
 
-        <div class="card"><div class="label">Όνομα</div><div class="value">Γιώργος</div></div>
-        <div class="card"><div class="label">Επώνυμο</div><div class="value">Παπαδόπουλος</div></div>
-        <div class="card"><div class="label">ΑΜΚΑ</div><div class="value">19026285734</div></div>
-        <div class="card"><div class="label">Ημερομηνία Γέννησης</div><div class="value">19/02/1962</div></div>
-        <div class="card"><div class="label">Ύψος</div><div class="value">175 cm</div></div>
-        <div class="card"><div class="label">Βάρος</div><div class="value">82 kg</div></div>
-
-        <div class="card full">
-            <div class="label">Διαβήτης</div>
-            <div class="value">Ναι</div>
-        </div>
-
-        <div class="card full">
-            <div class="label">Παραπεμπτικό</div>
-            <label for="fileUpload" class="file-label">Ανεβάστε το παραπεμπτικό</label>
-            <input type="file" id="fileUpload" hidden>
-        </div>
-
-    </div>
-</div>
-
-<div class="content">
-    <div class="card">Το ραντεβού σας έγινε δεκτό</div>
-    <div class="card">Ραντεβού: 15/04/2026, στις 12:00</div>
-    <div class="card">Θα χρειαστεί έλεγχος του βάρους στις 13/04/2026</div>
-    <div class="card">Υπενθύμιση: Μην ξεχάσετε την αποστολή του παραπεμπτικού</div>
-
-    <div class="card">
-        <div class="label">Νέο Ραντεβού</div>
-        <button class="btn" onclick="toggleForm()">Κλείσε Ραντεβού</button>
+    <div class="tabs">
+        <div class="tab active" onclick="showTab(0)">Καρτέλα</div>
+        <div class="tab" onclick="showTab(1)">Μηνύματα</div>
     </div>
 
-    <div class="appointment-form" id="appointmentForm">
-        <div class="card full">
-            <div class="grid">
-                <div class="form-group">
-                    <label for="formName">Όνομα</label>
-                    <input type="text" id="formName" value="Γιώργος">
-                </div>
-                <div class="form-group">
-                    <label for="formSurname">Επώνυμο</label>
-                    <input type="text" id="formSurname" value="Παπαδόπουλος">
-                </div>
-                <div class="form-group">
-                    <label for="formAMKA">ΑΜΚΑ</label>
-                    <input type="text" id="formAMKA" value="19026285734">
-                </div>
-                <div class="form-group">
-                    <label for="formAge">Ηλικία</label>
-                    <input type="text" id="formAge" value="64">
-                </div>
-                <div class="form-group">
-                    <label for="formHeight">Ύψος (cm)</label>
-                    <input type="text" id="formHeight" value="175">
-                </div>
-                <div class="form-group">
-                    <label for="formWeight">Βάρος (kg)</label>
-                    <input type="text" id="formWeight" value="82">
-                </div>
-                <div class="form-group">
-                    <label for="formReason">Λόγος Επίσκεψης</label>
-                    <input type="text" id="formReason" placeholder="Περιγράψτε τον λόγο">
-                </div>
+    <!-- ΚΑΡΤΕΛΑ -->
+    <div class="content active">
+
+        <div class="grid">
+
+            <div class="card">
+                <label for="name">Όνομα</label>
+                <input id="name" class="edit-input" value="Γιώργος">
             </div>
 
-            <div class="checkbox-group">
-                <input type="checkbox" id="termsCheck">
-                <label for="termsCheck">Αποδέχομαι τους όρους χρήσης και την πολιτική απορρήτου</label>
+            <div class="card">
+                <label for="surname">Επώνυμο</label>
+                <input id="surname" class="edit-input" value="Παπαδόπουλος">
             </div>
 
-           <a href="patient.html"><button class="btn">Υποβολή Αιτήματος</button></a>
+            <div class="card">
+                <label for="amka">ΑΜΚΑ</label>
+                <input id="amka" class="edit-input" value="19026285734">
+            </div>
+
+            <div class="card">
+                <label for="birth">Ημερομηνία Γέννησης</label>
+                <input id="birth" class="edit-input" value="19/02/1962">
+            </div>
+
+            <div class="card">
+                <label for="height">Ύψος</label>
+                <input id="height" class="edit-input" value="175 cm">
+            </div>
+
+            <div class="card">
+                <label for="weight">Βάρος</label>
+                <input id="weight" class="edit-input" value="82 kg">
+            </div>
+
+            <div class="card full">
+                <label for="diabetes">Διαβήτης</label>
+                <input id="diabetes" class="edit-input" value="Ναι">
+            </div>
+
+            <!-- Παραπέμπτικό -->
+            <div class="card full">
+
+                <div class="label">Παραπεμπτικό</div>
+
+                <label for="fileUpload" class="file-label">
+                    Ανεβάστε το παραπεμπτικό
+                </label>
+
+                <input type="file" id="fileUpload" hidden>
+
+                <div id="fileName"></div>
+
+            </div>
+
+            <!-- Αίτημα -->
+            <div class="card full">
+
+                <div class="label">Αίτημα προς Γραμματεία</div>
+
+                <input
+                    type="text"
+                    id="reason"
+                    class="edit-input"
+                    placeholder="Λόγος επίσκεψης"
+                >
+
+                <div class="checkbox-group">
+
+                    <input type="checkbox" id="termsCheck">
+
+                    <label for="termsCheck">
+                        Αποδέχομαι τους όρους χρήσης
+                    </label>
+
+                </div>
+
+                <button class="btn" id="submitBtn" onclick="submitRequest()">
+                    Αποστολή στη Γραμματεία
+                </button>
+
+                <div id="successMessage">
+                    Το αίτημα στάλθηκε επιτυχώς
+                </div>
+
+            </div>
+
         </div>
+
     </div>
+    <div class="content">
+        <div class="messages" id="messages">
+          <div class="message user">
+    Αγαπητέ ασθενή, το ραντεβού σας στις 08/04/2026 εγκρίθηκε.
 </div>
-
-<div class="content">
-
-    <div class="messages" id="messages">
-        <div class="message">Αγαπητέ ασθενή, το ραντεβού σας στις 15/04 εγκρίθηκε.</div>
-        <div class="message user">Εντάξει, ευχαριστώ.</div>
-        <div class="message">Υπενθύμιση: έχετε ραντεβού στις 15/4.</div>
-    </div>
-
-    <div class="chat-box">
-        <label for="msgInput" class="visually-hidden">Μήνυμα</label>
-        <textarea id="msgInput" rows="2" placeholder="Γράψε μήνυμα..."></textarea>
-        <button onclick="sendMsg()">➤</button>
-    </div>
-
+<div class="message bot">
+    Εντάξει, ευχαριστώ.
 </div>
+<div class="message user">
+    Υπενθύμιση: έχετε ραντεβού στις 08/04/2026.
+</div>
+<div class="message user">
+    Υπενθύμιση: έχετε ραντεβού στις 08/04/2026.
+</div>
+        </div>
+
+        <div class="chat-box">
+
+            <textarea id="msgInput" rows="2" placeholder="Γράψε μήνυμα..."></textarea>
+
+            <button onclick="sendMsg()">➤</button>
+
+        </div>
+
+    </div>
 
 </div>
 
 <script>
+
 function showTab(i){
-    document.querySelectorAll(".tab").forEach((t,idx)=>t.classList.toggle("active",idx===i));
-    document.querySelectorAll(".content").forEach((c,idx)=>c.classList.toggle("active",idx===i));
+
+    document.querySelectorAll(".tab").forEach((tab, index) => {
+        tab.classList.toggle("active", index === i);
+    });
+
+    document.querySelectorAll(".content").forEach((content, index) => {
+        content.classList.toggle("active", index === i);
+    });
+
 }
 
 function sendMsg(){
-    let input=document.getElementById("msgInput");
-    let text=input.value.trim();
+
+    let input = document.getElementById("msgInput");
+
+    let text = input.value.trim();
+
     if(!text) return;
 
-    let div=document.createElement("div");
-    div.className="message user";
-    div.textContent=text;
+    let div = document.createElement("div");
+
+    div.className = "message user";
+
+    div.textContent = text;
 
     document.getElementById("messages").appendChild(div);
-    input.value="";
+
+    input.value = "";
+
 }
 
-function toggleForm(){
-    document.getElementById("appointmentForm").classList.toggle("active");
+const fileUpload = document.getElementById("fileUpload");
+
+fileUpload.addEventListener("change", function(){
+
+    if(this.files.length > 0){
+
+        document.getElementById("fileName").textContent =
+            "✔ Ανέβηκε αρχείο: " + this.files[0].name;
+
+    }
+
+});
+
+let requestSent = false;
+
+function submitRequest(){
+
+    if(requestSent){
+        return;
+    }
+
+    const termsCheck =
+        document.getElementById("termsCheck");
+
+    if(!termsCheck.checked){
+
+        alert("Πρέπει να αποδεχτείτε τους όρους χρήσης.");
+        return;
+    }
+    if(fileUpload.files.length === 0){
+        alert("Παρακαλώ ανεβάστε το παραπεμπτικό.");
+        return;
+    }
+    requestSent = true;
+    document.getElementById("successMessage")
+        .style.display = "block";
+    const btn =
+        document.getElementById("submitBtn");
+    btn.textContent =
+        "Το αίτημα στάλθηκε ήδη στη γραμματεία";
+    btn.disabled = true;
+    btn.style.opacity = "0.7";
 }
+
 </script>
-
 </body>
 </html>
   
